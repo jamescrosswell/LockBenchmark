@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>LockBenchmark.LockBenchmarks-20240307-223908</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.13.12, macOS Sonoma 14.2.1 (23C71) [Darwin 23.2.0]
+Apple M2 Max, 1 CPU, 12 logical and 12 physical cores
+.NET SDK 8.0.100
+  [Host]   : .NET 8.0.0 (8.0.23.53103), Arm64 RyuJIT AdvSIMD
+  ShortRun : .NET 8.0.0 (8.0.23.53103), Arm64 RyuJIT AdvSIMD
+</code></pre>
+<pre><code>Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  
+</code></pre>
+
+<table>
+<thead><tr><th>Method </th><th>LockedWork</th><th>Mean</th><th>Error</th><th>StdDev</th>
+</tr>
+</thead><tbody><tr><td>Lock</td><td>10</td><td>97.00 ms</td><td>5.578 ms</td><td>0.306 ms</td>
+</tr><tr><td>Interlock</td><td>10</td><td>86.88 ms</td><td>1.715 ms</td><td>0.094 ms</td>
+</tr><tr><td>SemaphoreSlim</td><td>10</td><td>97.62 ms</td><td>5.045 ms</td><td>0.277 ms</td>
+</tr><tr><td>Lock</td><td>100</td><td>187.58 ms</td><td>8.191 ms</td><td>0.449 ms</td>
+</tr><tr><td>Interlock</td><td>100</td><td>143.36 ms</td><td>92.690 ms</td><td>5.081 ms</td>
+</tr><tr><td>SemaphoreSlim</td><td>100</td><td>187.67 ms</td><td>13.449 ms</td><td>0.737 ms</td>
+</tr></tbody></table>
+</body>
+</html>
