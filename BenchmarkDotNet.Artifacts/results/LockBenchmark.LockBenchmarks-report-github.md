@@ -10,11 +10,11 @@ Job=ShortRun  IterationCount=3  LaunchCount=1
 WarmupCount=3  
 
 ```
-| Method        | LockedWork | Mean      | Error     | StdDev   |
-|-------------- |----------- |----------:|----------:|---------:|
-| **Lock**          | **10**         |  **97.00 ms** |  **5.578 ms** | **0.306 ms** |
-| Interlock     | 10         |  86.88 ms |  1.715 ms | 0.094 ms |
-| SemaphoreSlim | 10         |  97.62 ms |  5.045 ms | 0.277 ms |
-| **Lock**          | **100**        | **187.58 ms** |  **8.191 ms** | **0.449 ms** |
-| Interlock     | 100        | 143.36 ms | 92.690 ms | 5.081 ms |
-| SemaphoreSlim | 100        | 187.67 ms | 13.449 ms | 0.737 ms |
+| Method        | FillTime | Mean      | Error      | StdDev   |
+|-------------- |--------- |----------:|-----------:|---------:|
+| **Lock**          | **10**       |  **86.78 ms** |   **7.175 ms** | **0.393 ms** |
+| Interlock     | 10       |  88.21 ms |  40.987 ms | 2.247 ms |
+| SemaphoreSlim | 10       |  87.05 ms |   3.873 ms | 0.212 ms |
+| **Lock**          | **100**      | **135.48 ms** | **110.080 ms** | **6.034 ms** |
+| Interlock     | 100      | 143.78 ms | 140.779 ms | 7.717 ms |
+| SemaphoreSlim | 100      | 140.48 ms |  43.458 ms | 2.382 ms |

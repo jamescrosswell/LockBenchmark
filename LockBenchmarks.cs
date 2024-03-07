@@ -12,13 +12,13 @@ public class LockBenchmarks
     [GlobalSetup]
     public void GlobalSetup()
     {
-        _hole = new Hole(LockedWork, UnLockedWork);
+        _hole = new Hole(FillTime, DigTime);
     }
 
     [Params(10, 100)]
-    public int LockedWork { get; set; }
+    public int FillTime { get; set; }
 
-    private const int UnLockedWork = 10;
+    private const int DigTime = 10;
     
     static LockBenchmarks()
     {
@@ -37,13 +37,18 @@ public class LockBenchmarks
         {
             _hole.Dig();
 
+            var isReset = false;
             lock (resetLock)
             {
                 if (DateTime.UtcNow.Ticks - lastReset > Period)
                 {
                     lastReset = DateTime.UtcNow.Ticks;
-                    _hole.Fill();
+                    isReset = true;
                 }
+            }
+            if (isReset)
+            {
+                _hole.Fill();
             }
         });
 
@@ -81,19 +86,24 @@ public class LockBenchmarks
         Parallel.For(0, Parallelism, i =>
         {
             _hole.Dig();
-            
+
+            var isReset = false;
             ss.Wait();
             try
             {
                 if (DateTime.UtcNow.Ticks - lastReset > Period)
                 {
                     lastReset = DateTime.UtcNow.Ticks;
-                    _hole.Fill();
+                    isReset = true;
                 }
             }
             finally
             {
                 ss.Release();
+            }
+            if (isReset)
+            {
+                _hole.Fill();
             }
         });
         
@@ -101,18 +111,18 @@ public class LockBenchmarks
     }
 }
 
-public class Hole(int lockedWork, int unLockedWork)
+public class Hole(int fillTime, int digTime)
 {
     private long _depth = 0;
     public long Depth => Interlocked.Read(ref _depth);
     public void Dig()
     {
-        Thread.Sleep(unLockedWork); // Fake work
+        Thread.Sleep(digTime); // Fake work
         Interlocked.Decrement(ref _depth);
     }
     public void Fill()
     {
-        Thread.Sleep(lockedWork); // Fake work
+        Thread.Sleep(fillTime); // Fake work
         Interlocked.Exchange(ref _depth, 0);
     }
 }
